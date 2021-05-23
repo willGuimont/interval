@@ -4,4 +4,5 @@
   :license {:name "MIT"
             :url  "https://choosealicense.com/licenses/mit/"}
   :dependencies [[org.clojure/clojure "1.10.1"]]
-  :repl-options {:init-ns interval.core})
+  :repl-options {:init-ns interval.core}
+  :main interval.core)
