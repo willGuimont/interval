@@ -13,4 +13,6 @@
                     (m/map-vals (partial set-priority set-zero))
                     (m/map-vals (partial set-priority-exercises set-zero))))
 
+
+
 (println initial-exercises)
