@@ -6,7 +6,7 @@
 
 (defn map-exercise [xs] {:exercises (map (partial apply make-exercise) xs)})
 
-;; TODO: move to data file
+;; TODO: do a new selection of exercises
 (def exercises {:arms     (map-exercise [["Push ups" :rep 10]
                                          ["Dips" :rep 5]
                                          ["Arm hold" :duration 1]

@@ -1,18 +1,35 @@
 (ns interval.priorities
-  (:require [interval.exercises :as exe]
-            [medley.core :as m]))
+  (:require [medley.core :as m]))
 
-(defn set-priority [f x] (assoc x :priority (f (:priority x))))
+(defn update-priority [f x] (assoc x :priority (f (:priority x))))
 
-(defn set-priority-exercises [f x]
-  (update-in x [:exercises] #(map (partial set-priority f) %)))
+(defn update-priority-exercises [f xs]
+  (update-in xs [:exercises] #(map (partial update-priority f) %)))
 
-(defn set-zero [_] 0)
+(defn update-all [xs f]
+  (->> xs
+       (m/map-vals #(update-priority f %))
+       (m/map-vals #(update-priority-exercises f %))))
 
-(def initial-exercises (->> exe/exercises
-                    (m/map-vals (partial set-priority set-zero))
-                    (m/map-vals (partial set-priority-exercises set-zero))))
+(defn set-random-priority [_] (rand))
 
+(defn add-random-priority [x] (+ x (rand)))
 
+(defn select-exercise [xs]
+  (let [category (key (apply max-key (comp :priority val) xs))
+        exe-category ((comp :exercises category) xs)
+        exercise (apply max-key :priority exe-category)
+        ]
+    {:category category
+     :exercise exercise}))
 
-(println initial-exercises)
+(defn update-weights [xs]
+  (let [
+        selection (select-exercise xs)
+        category (:category selection)
+        exercise (:exercise selection)
+        exercise-id (:name exercise)]
+    (-> xs
+        (assoc-in [category exercise-id :priority] 0)
+        (assoc-in [category :priority] 0)
+        (update-all add-random-priority))))
