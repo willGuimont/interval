@@ -1,14 +1,13 @@
 (ns interval.core
-  (:require [interval.exercises :as exe]
-            [interval.priorities :as p]
-            [interval.formatting :as f]
-            [notify-send.core :as n]
-            [notify-send.icons :refer [icons]]
+  (:require [clojurewerkz.quartzite.jobs :as j]
+            [clojurewerkz.quartzite.jobs :refer [defjob]]
+            [clojurewerkz.quartzite.schedule.simple :refer [repeat-forever schedule with-interval-in-hours]]
             [clojurewerkz.quartzite.scheduler :as qs]
             [clojurewerkz.quartzite.triggers :as t]
-            [clojurewerkz.quartzite.jobs :as j]
-            [clojurewerkz.quartzite.jobs :refer [defjob]]
-            [clojurewerkz.quartzite.schedule.simple :refer [schedule repeat-forever with-interval-in-hours]]))
+            [interval.exercises :as exe]
+            [interval.formatting :as f]
+            [interval.priorities :as p]
+            [notify-send.core :as n]))
 
 (def exercises (atom (p/update-all exe/exercises p/set-random-priority)))
 
